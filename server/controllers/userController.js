@@ -1,8 +1,7 @@
-// this file contain the buisness logic for the user like login register and logout functions
+// this file contain the business logic for the user like login register and logout functions
 
 import { User } from "../models/userModel.js";
 import bcrypt from "bcryptjs";
-import { config } from "dotenv";
 import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
@@ -72,24 +71,42 @@ export const login = async (req, res) => {
     // if i want to store token in the form of cookie
     return res
       .status(200)
-      .cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000 ,httponly:true,sameSite:'strict'}).json({
-        _id:user._id,
-        userName:user.userName,
-        fullName:user.fullName,
-        profilePhoto:user.profilePhoto
+      .cookie("token", token, {
+        maxAge: 1 * 24 * 60 * 60 * 1000,
+        httponly: true,
+        sameSite: "strict",
+      })
+      .json({
+        _id: user._id,
+        userName: user.userName,
+        fullName: user.fullName,
+        profilePhoto: user.profilePhoto,
       });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error." });
+  }
+};
+
+export const logout = (req, res) => {
+  try {
+    return res.status(200).cookie("token", "", { maxAge: 0 }).json({
+      message: "user logged out successfully.",
+    });
   } catch (error) {
     console.log(error);
   }
 };
 
-
-export const logout = (req,res)=>{
-    try {
-        return res.status(200).cookie("token","",{maxAge:0}).json({
-            message:"user logged out successfully."
-        })
-    } catch (error) {
-        console.log(error);
-    }
-}
+export const getOtherUsers = async (req, res) => {
+  try {
+    const loggedInUserId = req.id;
+    const otherUsers = await User.find({ _id: { $ne: loggedInUserId } }).select(
+      "-password"
+    );
+    return res.status(200).json(otherUsers);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error." });
+  }
+};
