@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import logo1 from "../assests/logo.png";
-// import logo2 from "../assests/logo_dark.png";
+import logo2 from "../assests/logo_dark.png";
 const Navbar = () => {
   return (
     <div>
