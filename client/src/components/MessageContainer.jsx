@@ -3,7 +3,7 @@ import React from "react";
 const MessageContainer = () => {
   return (
     <div className="md:min-w-[550px] flex flex-col">
-      <div className="flex gap-2 items-center bg-zinc-100">
+      <div className="flex gap-2 items-center bg-zinc-150">
         <div className="avatar online">
           <div className="w-12 rounded-full">
             <img
