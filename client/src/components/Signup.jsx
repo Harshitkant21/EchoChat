@@ -1,5 +1,11 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import axios from "axios";
+// import { useDispatch } from "react-redux";
+// import { setAuthUser } from "../redux/userSlice";
 import image1 from "../assests/image1.jpg";
+import Login from "./Login";
 
 const Signup = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -11,7 +17,6 @@ const Signup = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     userName: "",
-    email: "",
     password: "",
     confirmPassword: "",
     gender: "",
@@ -21,11 +26,39 @@ const Signup = () => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
   };
+  const navigation = useNavigate();
+  // const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission
     console.log(formData);
+    try {
+      const res = await axios.post(
+        "http://localhost:8080/api/v1/user/register",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      toast.success(res.data.message);
+      console.log(res);
+      navigation("/");
+      // dispatch(setAuthUser(res.data));
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error);
+    }
+    setFormData({
+      fullName: "",
+      userName: "",
+      password: "",
+      confirmPassword: "",
+      gender: "",
+    });
   };
 
   return (
@@ -181,9 +214,11 @@ const Signup = () => {
                 </div>
                 <div className="text-black font-small md:font-medium py-2 px-10 focus:outline-none focus:shadow-outline w-full">
                   Already have an account?{" "}
-                  <span className="text-slate-700 cursor-pointer hover:text-slate-900 underline">
-                    Login here
-                  </span>
+                  <Link to="/login">
+                    <span className="text-slate-700 cursor-pointer hover:text-slate-900 underline">
+                      Login here
+                    </span>
+                  </Link>
                 </div>
               </form>
             </div>

@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import image2 from "../assests/image2.jpg";
-import { setAuthUser } from "../redux/userSlice";
+// import { setAuthUser } from "../redux/userSlice";
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -23,13 +23,13 @@ const Login = () => {
     setFormData({ ...formData, [id]: value });
   };
   const navigation = useNavigate();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission
     // console.log(formData);
     try {
-      // console.log(formData);
+      console.log(formData);
       const res = await axios.post(
         `http://localhost:8080/api/v1/user/login`,
         formData,
@@ -41,7 +41,7 @@ const Login = () => {
         }
       );
       navigation("/");
-      dispatch(setAuthUser(res.data));
+      // dispatch(setAuthUser(res.data));
     } catch (error) {
       toast.error(error.response.data.message);
       console.log(error);
