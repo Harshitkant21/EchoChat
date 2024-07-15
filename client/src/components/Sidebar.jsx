@@ -4,10 +4,10 @@ import OtherUsers from "./OtherUsers";
 
 const Sidebar = () => {
   return (
-    <div className="border border-slate-50 p-4 flex flex-col">
-      <form action="" className="flex items-center gap-2">
+    <div className="border border-slate-50 p-4 flex flex-col h-full">
+      <form action="" className="flex items-center gap-2 mb-4">
         <input
-          className="input input-bordered rounded-md"
+          className="input input-bordered rounded-md flex-1"
           type="text"
           placeholder="Search... "
         />
@@ -17,7 +17,6 @@ const Sidebar = () => {
       </form>
       <div className="divider px-3"></div>
       <OtherUsers />
-      
     </div>
   );
 };

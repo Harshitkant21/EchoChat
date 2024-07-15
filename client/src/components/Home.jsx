@@ -10,8 +10,12 @@ const Home = () => {
         <Navbar />
       </div>
       <div className="flex flex-1 sm:h-[450px] md:h-[550px] rounded-lg overflow-hidden bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-20">
-        <Sidebar className="w-64 bg-gray-800 text-white" />
-        <MessageContainer className="flex-1 bg-gray-100" />
+        <div className="w-80">
+          <Sidebar />
+        </div>
+        <div className="flex-1">
+          <MessageContainer className="flex-1 bg-gray-100" />
+        </div>
       </div>
     </div>
   );

@@ -2,16 +2,20 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
-// import { useDispatch } from "react-redux";
-// import { setAuthUser } from "../redux/userSlice";
+import { useDispatch } from "react-redux";
+import { setAuthUser } from "../redux/userSlice";
 import image1 from "../assests/image1.jpg";
 import Login from "./Login";
 
 const Signup = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setconfirmPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
+  };
+  const toggleconfirmPasswordVisible = () => {
+    setconfirmPasswordVisible(!confirmPasswordVisible);
   };
 
   const [formData, setFormData] = useState({
@@ -27,7 +31,7 @@ const Signup = () => {
     setFormData({ ...formData, [id]: value });
   };
   const navigation = useNavigate();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,7 +51,7 @@ const Signup = () => {
       toast.success(res.data.message);
       console.log(res);
       navigation("/");
-      // dispatch(setAuthUser(res.data));
+      dispatch(setAuthUser(res.data));
     } catch (error) {
       toast.error(error.response.data.message);
       console.log(error);
@@ -165,7 +169,7 @@ const Signup = () => {
                   <div className="relative">
                     <input
                       id="confirmPassword"
-                      type={passwordVisible ? "text" : "password"}
+                      type={confirmPasswordVisible ? "text" : "password"}
                       className="peer h-10 w-full border-b-2 bg-transparent border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
                       placeholder="Confirm Password"
                       value={formData.confirmPassword}
@@ -173,7 +177,7 @@ const Signup = () => {
                     />
                     <button
                       type="button"
-                      onClick={togglePasswordVisibility}
+                      onClick={toggleconfirmPasswordVisible}
                       className="absolute inset-y-0 right-0 px-3 py-2 flex items-center"
                     >
                       <svg
@@ -187,7 +191,7 @@ const Signup = () => {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       >
-                        {!passwordVisible ? (
+                        {!confirmPasswordVisible ? (
                           <>
                             <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
                             <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
