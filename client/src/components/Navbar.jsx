@@ -1,8 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo1 from "../assests/logo.png";
+import axios from "axios";
+import toast from "react-hot-toast";
 // import logo2 from "../assests/logo_dark.png";
 const Navbar = () => {
+  const navigate = useNavigate();
+  const logoutHandler = async () => {
+    try {
+      const res = await axios.get(`http://localhost:8080/api/v1/user/logout`);
+      navigate("/login");
+      toast.success(res.data.message);
+    } catch (error) {
+      toast.error(error.data.message);
+      console.log(error);
+    }
+  };
   return (
     <div>
       <nav className="bg-white border-gray-200 dark:bg-gray-900">
@@ -23,7 +36,9 @@ const Navbar = () => {
             </Link>
 
             <div>
-              <button className="btn btn-sm">Logout</button>
+              <button onClick={logoutHandler} className="btn btn-sm">
+                Logout
+              </button>
             </div>
           </div>
         </div>

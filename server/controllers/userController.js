@@ -81,6 +81,7 @@ export const login = async (req, res) => {
         userName: user.userName,
         fullName: user.fullName,
         profilePhoto: user.profilePhoto,
+        message: "Logged in",
       });
   } catch (error) {
     console.log(error);
@@ -91,7 +92,7 @@ export const login = async (req, res) => {
 export const logout = (req, res) => {
   try {
     return res.status(200).cookie("token", "", { maxAge: 0 }).json({
-      message: "user logged out successfully.",
+      message: "Logged out successfully",
     });
   } catch (error) {
     console.log(error);

@@ -40,6 +40,8 @@ const Login = () => {
           withCredentials: true,
         }
       );
+      toast.success(res.data.message);
+
       navigation("/");
       dispatch(setAuthUser(res.data));
     } catch (error) {
@@ -140,7 +142,7 @@ const Login = () => {
                 </div>
                 <div className="text-black font-small md:font-medium py-2 px-10 focus:outline-none focus:shadow-outline w-full">
                   No Account?{" "}
-                  <Link to="/Signup">
+                  <Link to="/register">
                     <span className="text-slate-700 cursor-pointer hover:text-slate-900 underline">
                       Create here
                     </span>
