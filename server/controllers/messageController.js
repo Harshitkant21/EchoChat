@@ -42,7 +42,7 @@ export const sendMessage = async (req, res) => {
     // SOCKET.IO
 
     return res.status(201).json({
-      message: "Success sending message",
+      newMessage
     });
   } catch (error) {
     console.log(error);

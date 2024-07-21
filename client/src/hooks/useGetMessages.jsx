@@ -9,7 +9,7 @@ const useGetMessages = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       if (!selectedUser?._id) {
-        console.warn("Selected user ID is undefined or null");
+      console.warn("Selected user ID is undefined or null");
         return;
       }
       try {
@@ -17,14 +17,15 @@ const useGetMessages = () => {
         const res = await axios.get(
           `http://localhost:8080/api/v1/message/${selectedUser?._id}`
         );
-        console.log(res);
+        // console.log(res);
         dispatch(setMessages(res.data));
       } catch (error) {
         console.log(error);
+        dispatch(setMessages([]));
       }
     };
     fetchMessages();
-  }, [selectedUser, dispatch]);
+  }, [selectedUser]);
 };
 
 export default useGetMessages;

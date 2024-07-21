@@ -5,7 +5,14 @@ import { useSelector } from "react-redux";
 const Messages = () => {
   useGetMessages();
   const { messages } = useSelector((store) => store.messages);
-  if (!messages) return;
+  
+  if (!messages || messages.length === 0) {
+    return (
+      <div className="flex justify-center items-center h-full text-gray-500">
+        No messages to show.
+      </div>
+    );
+  }
   return (
     <div className="px-4 flex-1 overflow-auto scrollbar-custom">
       {messages.map((message) => (
