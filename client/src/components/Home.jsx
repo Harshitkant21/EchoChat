@@ -1,9 +1,22 @@
-import React from "react";
+import {React, useEffect} from "react";
 import Sidebar from "./Sidebar";
 import MessageContainer from "./MessageContainer";
 import Navbar from "./Navbar";
+import { setAuthUser } from "../redux/userSlice.js";
+import { useDispatch } from "react-redux";
+
+
 
 const Home = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("authUser");
+    if (storedUser) {
+      dispatch(setAuthUser(JSON.parse(storedUser)));
+    }
+  }, [dispatch]);
+
   return (
     <div className="flex flex-col h-screen">
       <div>

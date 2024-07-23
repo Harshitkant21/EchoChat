@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 const Messages = () => {
   useGetMessages();
   const { messages } = useSelector((store) => store.messages);
-  
+
   if (!messages || messages.length === 0) {
     return (
       <div className="flex justify-center items-center h-full text-gray-500">

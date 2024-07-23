@@ -6,6 +6,7 @@ import { setSelectedUser } from "../redux/userSlice";
 
 const MessageContainer = () => {
   const { selectedUser } = useSelector((store) => store.user);
+  const { authUser } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   useEffect(() => {
     return () => dispatch(setSelectedUser(null));
@@ -14,7 +15,10 @@ const MessageContainer = () => {
   if (!selectedUser) {
     return (
       <div className="flex justify-center items-center h-full text-gray-500">
-        <p>Please select a user to view messages.</p>
+        <div className="text-center">
+          <p>Hi, <span className="font-bold">{authUser?.fullName}</span> </p>
+          <p>Please select a user to view messages.</p>
+        </div>
       </div>
     );
   }

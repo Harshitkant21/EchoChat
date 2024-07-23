@@ -12,7 +12,7 @@ const Message = ({ message }) => {
     scroll.current?.scrollIntoView({ behavior: "smooth" });
   }, [message]);
   
-
+  console.log(`${authUser?._id} == ${message?.senderId}`)
   return (
     <div
       ref={scroll}
