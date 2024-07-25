@@ -26,7 +26,7 @@ const Sidebar = () => {
     if (search === "") {
       // If search is cleared, reset to the full list
       dispatch(setOtherUsers(fullListUser));
-      return;
+      // return;
     }
     const filteredUsers = otherUsers?.find((user) =>
       user.fullName.toLowerCase().includes(search.toLowerCase())
