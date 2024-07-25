@@ -1,16 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userSlice.js";
 import messageReducer from "./messageSlice.js";
-
-const loadAuthUserFromLocalStorage = () => {
-  try {
-    const authUser = localStorage.getItem("authUser");
-    return authUser ? JSON.parse(authUser) : null;
-  } catch (e) {
-    console.error("Could not load authUser from local storage:", e);
-    return null;
-  }
-};
+import { loadAuthUserFromLocalStorage } from "../utils/localStorage";
 
 const preloadedState = {
   user: {
@@ -28,7 +19,7 @@ const store = configureStore({
     user: userReducer,
     messages: messageReducer,
   },
-  preloadedState, 
+  preloadedState,
 });
 
 export default store;
