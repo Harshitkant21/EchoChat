@@ -3,6 +3,7 @@
 import { Converstaion } from "../models/conversationModel.js";
 import { Message } from "../models/messageModel.js";
 import mongoose from "mongoose";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
@@ -37,12 +38,17 @@ export const sendMessage = async (req, res) => {
       gotConversation.messages.push(newMessage._id);
     }
 
-    await gotConversation.save();
+    await Promise.all([gotConversation.save(), newMessage.save()]);
 
     // SOCKET.IO
 
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
+
     return res.status(201).json({
-      newMessage
+      newMessage,
     });
   } catch (error) {
     console.log(error);

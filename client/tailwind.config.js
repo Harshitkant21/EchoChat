@@ -4,8 +4,5 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [
-    require('daisyui'),
-    require('tailwind-scrollbar')
-  ]
-}
+  plugins: [require("daisyui"), require("tailwind-scrollbar")],
+};

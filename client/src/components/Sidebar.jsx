@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import OtherUsers from "./OtherUsers";
 import { setOtherUsers } from "../redux/userSlice";
 import toast from "react-hot-toast";
-import debounce from "lodash.debounce";
 import useGetOtherUsers from "../hooks/useGetOtherUsers.jsx";
 
 const Sidebar = () => {
@@ -24,9 +23,7 @@ const Sidebar = () => {
   const searchSubmitHandler = (e) => {
     e.preventDefault();
     if (search === "") {
-      // If search is cleared, reset to the full list
       dispatch(setOtherUsers(fullListUser));
-      // return;
     }
     const filteredUsers = otherUsers?.find((user) =>
       user.fullName.toLowerCase().includes(search.toLowerCase())
@@ -37,16 +34,6 @@ const Sidebar = () => {
       toast.error("User not found!");
     }
   };
-
-  // const debouncedSearch = useCallback(
-  //   debounce((value) => {
-  //     setSearch(value);
-  //   }, 300),
-  //   []
-  // );
-  // const handleInputChange = (e) => {
-  //   debouncedSearch(e.target.value);
-  // };
 
   return (
     <div className="border border-slate-50 p-4 flex flex-col h-full">

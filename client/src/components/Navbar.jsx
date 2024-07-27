@@ -3,21 +3,27 @@ import { Link, useNavigate } from "react-router-dom";
 import logo1 from "../assests/logo.png";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import logo2 from "../assests/logo_dark.png";
+import { clearVisit } from "../utils/localStorage.js";
+import { setAuthUser } from "../redux/userSlice.js";
 const Navbar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { authUser } = useSelector((store) => store.user);
   const logoutHandler = async () => {
     try {
       const res = await axios.get(`http://localhost:8080/api/v1/user/logout`);
       navigate("/login");
       toast.success(res.data.message);
+      dispatch(setAuthUser(null));
+      clearVisit();
     } catch (error) {
       toast.error(error.data.message || "Logout Fail");
       console.log(error);
     }
   };
+
   return (
     <div>
       <nav className="bg-white border-gray-200 dark:bg-gray-900">

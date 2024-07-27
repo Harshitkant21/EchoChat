@@ -8,6 +8,15 @@ export const loadAuthUserFromLocalStorage = () => {
   }
 };
 
+export const saveAuthUserToLocalStorage = (authUser) => {
+  try {
+    const serializedState = JSON.stringify(authUser);
+    localStorage.setItem("authUser", serializedState);
+  } catch (err) {
+    console.error("Could not save auth user to local storage", err);
+  }
+};
+
 export const setFirstVisit = () => {
   localStorage.setItem("hasVisited", "true");
 };
