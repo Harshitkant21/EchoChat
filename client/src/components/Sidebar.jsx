@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { IoSearchSharp } from "react-icons/io5";
 import { useSelector, useDispatch } from "react-redux";
 import OtherUsers from "./OtherUsers";
 import { setOtherUsers } from "../redux/userSlice";
 import toast from "react-hot-toast";
 import useGetOtherUsers from "../hooks/useGetOtherUsers.jsx";
+import debounce from "lodash.debounce";
 
 const Sidebar = () => {
   const [search, setSearch] = useState("");
@@ -20,19 +21,34 @@ const Sidebar = () => {
     }
   }, [otherUsers]);
 
+  const debouncedSearch = useCallback(
+    debounce((query) => {
+      if (query === "") {
+        dispatch(setOtherUsers(fullListUser));
+        return;
+      }
+      const filteredUsers = fullListUser.filter((user) =>
+        user?.fullName?.toLowerCase().includes(query.toLowerCase())
+      );
+      if (filteredUsers.length > 0) {
+        dispatch(setOtherUsers(filteredUsers));
+      } else {
+        toast.error("User not found!");
+      }
+    }, 300),
+    [fullListUser, dispatch]
+  );
+
+  useEffect(() => {
+    debouncedSearch(search);
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [search, debouncedSearch]);
+
   const searchSubmitHandler = (e) => {
     e.preventDefault();
-    if (search === "") {
-      dispatch(setOtherUsers(fullListUser));
-    }
-    const filteredUsers = otherUsers?.find((user) =>
-      user.fullName.toLowerCase().includes(search.toLowerCase())
-    );
-    if (filteredUsers) {
-      dispatch(setOtherUsers([filteredUsers]));
-    } else {
-      toast.error("User not found!");
-    }
+    debouncedSearch(search);
   };
 
   return (
