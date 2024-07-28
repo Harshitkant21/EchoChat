@@ -24,14 +24,16 @@ const Sidebar = () => {
   const debouncedSearch = useCallback(
     debounce((query) => {
       if (query === "") {
-        dispatch(setOtherUsers(fullListUser));
+        setFullListUser(otherUsers);
+        // dispatch(setOtherUsers(fullListUser));
         return;
       }
       const filteredUsers = fullListUser.filter((user) =>
         user?.fullName?.toLowerCase().includes(query.toLowerCase())
       );
       if (filteredUsers.length > 0) {
-        dispatch(setOtherUsers(filteredUsers));
+        setFullListUser(filteredUsers)
+        // dispatch(setOtherUsers(filteredUsers));
       } else {
         toast.error("User not found!");
       }
@@ -70,7 +72,7 @@ const Sidebar = () => {
         </button>
       </form>
       <div className="divider px-3"></div>
-      <OtherUsers />
+      <OtherUsers user={fullListUser}/>
     </div>
   );
 };

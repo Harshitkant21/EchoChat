@@ -23,6 +23,7 @@ const Message = ({ message }) => {
   };
 
   const currTime = formatTime(message.createdAt);
+  
 
   useEffect(() => {
     scroll.current?.scrollIntoView({ behavior: "smooth" });
