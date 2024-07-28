@@ -31,7 +31,7 @@ const Login = () => {
     try {
       console.log(formData);
       const res = await axios.post(
-        `http://localhost:8080/api/v1/user/login`,
+        `https://echo-chat-server.vercel.app/api/v1/user/login`,
         formData,
         {
           headers: {

@@ -9,7 +9,7 @@ const useGetOtherUsers = () => {
     const fetchOtherUsers = async () => {
       try {
         axios.defaults.withCredentials = true;
-        const res = await axios.get(`http://localhost:8080/api/v1/user/`);
+        const res = await axios.get(`https://echo-chat-server.vercel.app/api/v1/user/`);
         //store the value
 
         dispatch(setOtherUsers(res.data));
