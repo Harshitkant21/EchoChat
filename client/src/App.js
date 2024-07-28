@@ -19,7 +19,7 @@ function App() {
 
   useEffect(() => {
     if (authUser) {
-      const socket = io("https://echo-chat-server.vercel.app", {
+      const socket = io("http://localhost:8080", {
         query: { userID: authUser._id },
       });
       dispatch(setSocket(socket)); // line 17 socket is set to the use state
