@@ -39,7 +39,7 @@ const Signup = () => {
     console.log(formData);
     try {
       const res = await axios.post(
-        "http://localhost:8080/api/v1/user/register",
+        "https://echochat-f796.onrender.com/api/v1/user/register",
         formData,
         {
           headers: {

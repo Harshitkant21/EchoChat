@@ -31,7 +31,7 @@ const Login = () => {
     try {
       console.log(formData);
       const res = await axios.post(
-        `http://localhost:8080/api/v1/user/login`,
+        `https://echochat-f796.onrender.com/api/v1/user/login`,
         formData,
         {
           headers: {

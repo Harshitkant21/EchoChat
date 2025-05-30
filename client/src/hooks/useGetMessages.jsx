@@ -15,7 +15,7 @@ const useGetMessages = () => {
       try {
         axios.defaults.withCredentials = true;
         const res = await axios.get(
-          `http://localhost:8080/api/v1/message/${selectedUser?._id}`
+          `https://echochat-f796.onrender.com/api/v1/message/${selectedUser?._id}`
         );
         console.log(res);
         dispatch(setMessages(res.data));
