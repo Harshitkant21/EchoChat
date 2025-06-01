@@ -7,7 +7,6 @@ const useGetOtherUsers = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchOtherUsers = async () => {
-      if (!authUser) return;
       try {
         axios.defaults.withCredentials = true;
         const res = await api.get(`/user`);
