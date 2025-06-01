@@ -11,8 +11,12 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:3000"],
+    origin:
+      process.env.NODE_ENV === "production"
+        ? [process.env.FRONTEND_URL]
+        : ["http://localhost:3000"],
     methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 
@@ -21,6 +25,26 @@ export const getReceiverSocketId = (receiverId) => {
 };
 
 const userSocketMap = {}; //userID -> socketID
+
+// Add socket middleware for authentication
+io.use((socket, next) => {
+  try {
+    const token = socket.handshake.query.token;
+    if (!token) {
+      return next(new Error("Authentication required"));
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    if (!decoded) {
+      return next(new Error("Invalid token"));
+    }
+
+    socket.userId = decoded.userId;
+    next();
+  } catch (error) {
+    next(new Error("Authentication failed"));
+  }
+});
 
 io.on("connection", (socket) => {
   console.log("User connected", socket.id);

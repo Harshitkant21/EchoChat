@@ -13,7 +13,7 @@ const Navbar = () => {
   const { authUser } = useSelector((store) => store.user);
   const logoutHandler = async () => {
     try {
-      const res = await axios.get(`http://localhost:8080/api/v1/user/logout`);
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/user/logout`);
       navigate("/login");
       toast.success(res.data.message);
       dispatch(setAuthUser(null));

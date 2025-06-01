@@ -8,7 +8,7 @@ import GetStarted from "./components/GetStarted.jsx";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
-import { setSocket } from "./redux/socketSlice.js";
+import { setSocket, clearSocket } from "./redux/socketSlice.js";
 import { setOnlineUsers } from "./redux/userSlice.js";
 import { checkFirstVisit, setFirstVisit } from "./utils/localStorage.js";
 
@@ -16,25 +16,44 @@ function App() {
   const [isFirstVisit, setIsFirstVisit] = useState(checkFirstVisit());
   const { authUser } = useSelector((store) => store.user);
   const { socket } = useSelector((store) => store.socket);
+  const [socketInstance, setSocketInstance] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (authUser) {
-      const socket = io("http://localhost:8080", {
-        query: { userID: authUser._id },
+      const token = localStorage.getItem("token");
+      const socket = io(process.env.REACT_APP_SOCKET_URL, {
+        query: { userID: authUser._id, token: token },
+        withCredentials: true,
+        transports: ["websocket", "polling"],
       });
-      dispatch(setSocket(socket)); // line 17 socket is set to the use state
+      // dispatch(setSocket(socket)); // line 17 socket is set to the use state
+      socket.on("connect_error", (error) => {
+        console.error("Socket connection error:", error);
+      });
+
+      socket.on("connect", () => {
+        console.log("Socket connected");
+        setSocketInstance(socket);
+        dispatch(setSocket({ id: socket.id }));
+      });
 
       socket.on("getOnlineUsers", (onlineUsers) => {
         dispatch(setOnlineUsers(onlineUsers));
       });
-      return () => socket.close();
-    } else {
-      if (socket) {
-        socket.close();
-        dispatch(setSocket(null));
-      }
+      return () => {
+        // socket.close();
+        socket.disconnect(); // Disconnect the socket when the component unmounts
+        setSocketInstance(null); // Clear the socket instance
+        dispatch(clearSocket()); // Clear the socket from the Redux store
+      };
     }
+    // else {
+    //   if (socket) {
+    //     socket.close();
+    //     dispatch(setSocket(null));
+    //   }
+    // }
   }, [authUser, dispatch]);
   const handleLogin = () => {
     // Mark the first visit as completed

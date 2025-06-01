@@ -5,6 +5,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import image2 from "../assests/image2.jpg";
 import { setAuthUser } from "../redux/userSlice";
+import api from "../utils/api"; // Assuming you have a separate file for API calls
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -30,16 +31,10 @@ const Login = () => {
     // console.log(formData);
     try {
       console.log(formData);
-      const res = await axios.post(
-        `http://localhost:8080/api/v1/user/login`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+      const res = await api.post(`/user/login`, formData);
+      if(res.data.token){
+        localStorage.setItem("token", res.data.token);
+      }
       toast.success(res.data.message);
 
       navigation("/");
