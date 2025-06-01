@@ -16,7 +16,7 @@
 // export default useGetRealTimeMessage;
 
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessages } from "../redux/messageSlice";
 
@@ -25,13 +25,21 @@ const useGetRealTimeMessage = () => {
   const { socket } = useSelector((store) => store.socket);
   const { selectedUser } = useSelector((store) => store.user);
   const { messages } = useSelector((store) => store.messages);
+  const messagesRef = useRef(messages);
+
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
 
   useEffect(() => {
     if (!socket) return;
 
     const handleNewMessage = (newMessage) => {
       if (selectedUser?._id === newMessage.senderId || selectedUser?._id === newMessage.receiverId) {
-        dispatch(setMessages([...messages, newMessage]));
+        const messageExists = messagesRef.current.some(msg => msg._id === newMessage._id);
+        if (!messageExists) {
+          dispatch(setMessages([...messagesRef.current, newMessage]));
+        }
       }
     };
 
@@ -40,7 +48,7 @@ const useGetRealTimeMessage = () => {
     return () => {
       socket.off("newMessage", handleNewMessage);
     };
-  }, [socket, selectedUser, messages, dispatch]);
+  }, [socket, selectedUser, dispatch]);
 };
 
 export default useGetRealTimeMessage;

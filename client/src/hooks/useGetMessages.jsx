@@ -18,9 +18,12 @@ const useGetMessages = () => {
           `${process.env.REACT_APP_API_URL}/message/${selectedUser?._id}`
         );
         console.log(res);
-        dispatch(setMessages(res.data));
+        if (res.data) {
+          dispatch(setMessages(res.data));
+        }
       } catch (error) {
         console.log(error);
+        toast.error("Failed to load messages");
         dispatch(setMessages([]));
       }
     };
