@@ -16,6 +16,8 @@ const useGetOtherUsers = () => {
         dispatch(setOtherUsers(res.data));
       } catch (error) {
         console.error("Error fetching users:", error);
+        dispatch(setOtherUsers([]));
+        toast.error("Error fetching users");
       }
     };
     fetchOtherUsers();
