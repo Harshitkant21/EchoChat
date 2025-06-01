@@ -29,17 +29,18 @@ const useGetRealTimeMessage = () => {
   useEffect(() => {
     if (!socket) return;
 
-    socket.on("newMessage", (newMessage) => {
+    const handleNewMessage = (newMessage) => {
       if (selectedUser?._id === newMessage.senderId || selectedUser?._id === newMessage.receiverId) {
         dispatch(setMessages([...messages, newMessage]));
       }
-    });
-
-    // Cleanup listener on unmount
-    return () => {
-      socket.off("newMessage");
     };
-  }, [socket, messages, dispatch, selectedUser]);
+
+    socket.on("newMessage", handleNewMessage);
+
+    return () => {
+      socket.off("newMessage", handleNewMessage);
+    };
+  }, [socket, selectedUser, messages, dispatch]);
 };
 
 export default useGetRealTimeMessage;

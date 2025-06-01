@@ -16,7 +16,7 @@ function App() {
   const [isFirstVisit, setIsFirstVisit] = useState(checkFirstVisit());
   const { authUser } = useSelector((store) => store.user);
   const { socket } = useSelector((store) => store.socket);
-  const [socketInstance, setSocketInstance] = useState(null);
+  
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,8 +33,7 @@ function App() {
 
       socket.on("connect", () => {
         console.log("Socket connected");
-        setSocketInstance(socket);
-        dispatch(setSocket({ id: socket.id }));
+        dispatch(setSocket(socket));
       });
 
       socket.on("getOnlineUsers", (onlineUsers) => {
@@ -43,7 +42,6 @@ function App() {
       return () => {
         // socket.close();
         socket.disconnect(); // Disconnect the socket when the component unmounts
-        setSocketInstance(null); // Clear the socket instance
         dispatch(clearSocket()); // Clear the socket from the Redux store
       };
     }
