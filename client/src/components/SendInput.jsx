@@ -5,13 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMessages } from "../redux/messageSlice.js";
 import api from "../utils/api.js";
 import { toast } from "react-hot-toast";
-import { socket } from "../redux/socketSlice.js";
 
 const SendInput = () => {
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
   const { selectedUser } = useSelector((store) => store.user);
   const { messages } = useSelector((store) => store.messages);
+  const { socket } = useSelector((store) => store.socket);
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     if (!message.trim()) {
