@@ -18,6 +18,10 @@ const SendInput = () => {
       toast.error("Please enter a message");
       return;
     }
+    if (!socket) {
+      toast.error("Connection lost. Please refresh the page.");
+      return;
+    }
 
     try {
       const res = await api.post(`/message/send/${selectedUser?._id}`, {

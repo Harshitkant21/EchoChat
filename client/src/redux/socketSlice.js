@@ -10,9 +10,11 @@ const socketSlice = createSlice({
   initialState,
   reducers: {
     setSocket: (state, action) => {
+      state.socket = action.payload;
       state.socketId = action?.payload?.id || null;
     },
     clearSocket: (state) => {
+      state.socket = null;
       state.socketId = null;
     },
   },
