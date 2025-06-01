@@ -7,7 +7,15 @@ import { useSelector } from "react-redux";
 const OtherUsers = ({user}) => {
   // my custom hook
   useGetOtherUsers();
-  const { otherUsers } = useSelector((store) => store.user);
+  const { otherUsers, loading } = useSelector((store) => store.user);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <div className="loading loading-spinner loading-lg text-primary"></div>
+      </div>
+    );
+  }
   if (!otherUsers) return; // early return in react
   return (
     <div className="overflow-y-auto h-full scrollbar-custom pr-1">
