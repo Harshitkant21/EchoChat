@@ -5,7 +5,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setAuthUser } from "../redux/userSlice";
 import image1 from "../assests/image1.jpg";
-import Login from "./Login";
+import api from "../utils/api"; // Assuming you have a separate file for API calls
 
 const Signup = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -38,16 +38,7 @@ const Signup = () => {
     // Handle form submission
     console.log(formData);
     try {
-      const res = await axios.post(
-        "http://localhost:8080/api/v1/user/register",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+      const res = await api.post(`/user/register`,formData);
       toast.success(res.data.message);
       console.log(res);
       navigation("/");

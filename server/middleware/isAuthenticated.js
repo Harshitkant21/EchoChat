@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 const isAuthenticated = async (req, res, next) => {
   try {
-    const token = req.cookies.token;
+    const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
     // console.log(token);
 
     if (!token) {
@@ -16,7 +16,8 @@ const isAuthenticated = async (req, res, next) => {
     req.id = decode.userId;
     next(); // responsible to run the next function written in the route always if i call this auth function first it will run till here and then the next function name written will be called
   } catch (error) {
-    console.log(error);
+    console.error('Auth Error:', error);
+    return res.status(401).json({ message: "Authentication failed" });
   }
 };
 

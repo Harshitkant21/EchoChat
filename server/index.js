@@ -16,8 +16,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 const corsOption = {
-  origin: "http://localhost:3000",
+  origin: process.env.NODE_ENV === "production" 
+    ? ["https://echo-chat-woad.vercel.app", "http://localhost:3000"]
+    : "http://localhost:3000",
   credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOption));
