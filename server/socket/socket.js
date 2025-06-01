@@ -26,26 +26,6 @@ export const getReceiverSocketId = (receiverId) => {
 
 const userSocketMap = {}; //userID -> socketID
 
-// Add socket middleware for authentication
-io.use((socket, next) => {
-  try {
-    const token = socket.handshake.query.token;
-    if (!token) {
-      return next(new Error("Authentication required"));
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    if (!decoded) {
-      return next(new Error("Invalid token"));
-    }
-
-    socket.userId = decoded.userId;
-    next();
-  } catch (error) {
-    next(new Error("Authentication failed"));
-  }
-});
-
 io.on("connection", (socket) => {
   console.log("User connected", socket.id);
 

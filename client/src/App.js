@@ -21,9 +21,8 @@ function App() {
 
   useEffect(() => {
     if (authUser) {
-      const token = localStorage.getItem("token");
       const socket = io(process.env.REACT_APP_SOCKET_URL, {
-        query: { userID: authUser._id, token: token },
+        query: { userID: authUser._id },
         withCredentials: true,
         transports: ["websocket", "polling"],
       });
