@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setOtherUsers } from "../redux/userSlice";
-import api from "../utils/api"; 
+import { setOtherUsers, setLoading } from "../redux/userSlice";
+import api from "../utils/api";
 
 const useGetOtherUsers = () => {
   const dispatch = useDispatch();
@@ -19,6 +19,8 @@ const useGetOtherUsers = () => {
         console.error("Error fetching users:", error);
         dispatch(setOtherUsers([]));
         toast.error("Error fetching users");
+      }finally {
+        dispatch(setLoading(false)); // Set loading to false after fetching
       }
     };
     fetchOtherUsers();
