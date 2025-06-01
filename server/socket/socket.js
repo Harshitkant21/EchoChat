@@ -36,6 +36,14 @@ io.on("connection", (socket) => {
 
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
+    // Handle new messages
+    socket.on("sendMessage", (message) => {
+      const receiverSocketId = getReceiverSocketId(message.receiverId);
+      if (receiverSocketId) {
+        io.to(receiverSocketId).emit("newMessage", message);
+      }
+    });
+
   socket.on("disconnect", () => {
     console.log("User disconnected", socket.id);
     delete userSocketMap[userID];

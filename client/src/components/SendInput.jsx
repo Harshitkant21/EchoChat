@@ -23,12 +23,18 @@ const SendInput = () => {
         message,
       });
       console.log(res);
-      dispatch(setMessages([...messages, res?.data?.newMessage]));
+      if (res.data?.newMessage) {
+        // Emit socket event for real-time message
+        socket.emit("sendMessage", res.data.newMessage);
+        
+        // Update local state
+        dispatch(setMessages([...messages, res.data.newMessage]));
+        setMessage("");
+      }
     } catch (error) {
       console.log(error);
       toast.error(error.response?.data?.message || "Failed to send message");
     }
-    setMessage("");
   };
 
   return (
