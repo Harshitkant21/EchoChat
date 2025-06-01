@@ -10,7 +10,7 @@ import debounce from "lodash.debounce";
 const Sidebar = () => {
   const [search, setSearch] = useState("");
   const [fullListUser, setFullListUser] = useState([]);
-  const { otherUsers } = useSelector((store) => store.user);
+  const { otherUsers,loading } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   // fetch all users initially
   useGetOtherUsers();
@@ -66,8 +66,9 @@ const Sidebar = () => {
           className="input input-bordered rounded-md flex-1"
           type="text"
           placeholder="Search... "
+          disabled={loading}
         />
-        <button type="submit" className="btn bg-zinc-500 text-white">
+        <button type="submit" className="btn bg-zinc-500 text-white" disabled={loading}>
           <IoSearchSharp className="w-6 h-6 outline-none" />
         </button>
       </form>
