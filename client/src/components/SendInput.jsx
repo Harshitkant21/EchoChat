@@ -18,20 +18,14 @@ const SendInput = () => {
     }
 
     try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/message/send/${selectedUser?._id}`,
-        { message },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+      const res = await api.post(`/message/send/${selectedUser?._id}`, {
+        message,
+      });
       console.log(res);
       dispatch(setMessages([...messages, res?.data?.newMessage]));
     } catch (error) {
       console.log(error);
+      toast.error(error.response?.data?.message || "Failed to send message");
     }
     setMessage("");
   };

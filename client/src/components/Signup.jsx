@@ -41,6 +41,7 @@ const Signup = () => {
       const res = await api.post('/user/register', formData);
       if (res.data) {
         toast.success(res.data.message);
+        toast.success("Please login to continue");
         console.log(res);
         navigation("/");
         dispatch(setAuthUser(res.data));
