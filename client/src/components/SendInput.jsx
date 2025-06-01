@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { BiSend } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessages } from "../redux/messageSlice.js";
+import api from "../utils/api.js";
 import { toast } from "react-hot-toast";
 
 const SendInput = () => {
