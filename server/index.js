@@ -25,6 +25,8 @@ const corsOption = {
 };
 
 app.use(cors(corsOption));
+// Add OPTIONS pre-flight handling
+app.options('*', cors(corsOption));
 
 // routes
 

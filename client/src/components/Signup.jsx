@@ -38,11 +38,13 @@ const Signup = () => {
     // Handle form submission
     console.log(formData);
     try {
-      const res = await api.post(`/user/register`,formData);
-      toast.success(res.data.message);
-      console.log(res);
-      navigation("/");
-      dispatch(setAuthUser(res.data));
+      const res = await api.post('/user/register', formData);
+      if (res.data) {
+        toast.success(res.data.message);
+        console.log(res);
+        navigation("/");
+        dispatch(setAuthUser(res.data));
+      }
     } catch (error) {
       toast.error(error.response.data.message);
       console.log(error);
