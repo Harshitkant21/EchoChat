@@ -13,7 +13,7 @@ const OtherUsers = ({user}) => {
     return (
       <div className="flex justify-center items-center h-full">
         <div className="loading loading-spinner loading-lg text-primary">
-          <span className="loading loading-spinner loading-lg text-primary">Loading users...</span>
+          <span className="loading loading-dots loading-md text-gray-400">Loading...</span>
         </div>
       </div>
     );

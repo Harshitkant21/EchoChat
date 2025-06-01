@@ -11,6 +11,7 @@ const SendInput = () => {
   const dispatch = useDispatch();
   const { selectedUser } = useSelector((store) => store.user);
   const { messages } = useSelector((store) => store.messages);
+  const { socket } = useSelector((store) => store.socket);
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     if (!message.trim()) {
