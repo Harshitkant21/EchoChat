@@ -1,4 +1,4 @@
-import {React, useEffect} from "react";
+import React, { useEffect } from "react";
 import Sidebar from "./Sidebar";
 import MessageContainer from "./MessageContainer";
 import Navbar from "./Navbar";
