@@ -30,10 +30,15 @@ const SendInput = () => {
       console.log(res);
       if (res.data?.newMessage) {
         // Emit socket event for real-time message
-        socket.emit("sendMessage", res.data.newMessage);
+        const messageWithIds = {
+          ...res.data.newMessage,
+          senderId: authUser._id,
+          receiverId: selectedUser._id
+        };
+        socket.emit("sendMessage", messageWithIds);
         
         // Update local state
-        dispatch(setMessages([...messages, res.data.newMessage]));
+        dispatch(setMessages([...messages, messageWithIds]));
         setMessage("");
       }
     } catch (error) {
