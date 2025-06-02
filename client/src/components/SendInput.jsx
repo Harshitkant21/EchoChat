@@ -15,7 +15,7 @@ const SendInput = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    if (!message.trim() || sending || !selectedUser || !authUser) {
+    if (!message.trim() || !selectedUser || !authUser) {
       toast.error("Please enter a message");
       return;
     }
