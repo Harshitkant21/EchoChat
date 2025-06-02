@@ -20,11 +20,13 @@ const useGetMessages = () => {
         );
         console.log(res);
         if (res.data) {
-          dispatch(setMessages(res.data));
+          dispatch(setMessages(res.data||[]));
         }
       } catch (error) {
         console.log(error);
-        toast.error("Failed to load messages");
+        if (error.response?.status !== 404) {
+          toast.error("Failed to load messages");
+        }
         dispatch(setMessages([]));
       }
     };
