@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessages } from "../redux/messageSlice";
+import { toast } from "react-hot-toast";
 
 const useGetMessages = () => {
   const { selectedUser } = useSelector((store) => store.user);
