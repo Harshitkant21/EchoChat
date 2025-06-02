@@ -12,9 +12,10 @@ const SendInput = () => {
   const { selectedUser, authUser } = useSelector((store) => store.user);
   const { messages } = useSelector((store) => store.messages);
   const { socket } = useSelector((store) => store.socket);
+
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    if (!message.trim()) {
+    if (!message.trim() || sending || !selectedUser || !authUser) {
       toast.error("Please enter a message");
       return;
     }

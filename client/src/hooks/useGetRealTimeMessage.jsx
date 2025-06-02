@@ -15,7 +15,6 @@
 
 // export default useGetRealTimeMessage;
 
-
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessages } from "../redux/messageSlice";
@@ -23,7 +22,7 @@ import { setMessages } from "../redux/messageSlice";
 const useGetRealTimeMessage = () => {
   const dispatch = useDispatch();
   const { socket } = useSelector((store) => store.socket);
-  const { selectedUser } = useSelector((store) => store.user);
+  const { selectedUser, authUser } = useSelector((store) => store.user);
   const { messages } = useSelector((store) => store.messages);
   const messagesRef = useRef(messages);
 
@@ -32,15 +31,19 @@ const useGetRealTimeMessage = () => {
   }, [messages]);
 
   useEffect(() => {
-    if (!socket) return;
+    if (!socket || !selectedUser || !authUser) return;
 
     const handleNewMessage = (newMessage) => {
       if (
-        (newMessage.senderId === authUser._id && newMessage.receiverId === selectedUser._id) ||
-        (newMessage.senderId === selectedUser._id && newMessage.receiverId === authUser._id)
+        (newMessage.senderId === authUser._id &&
+          newMessage.receiverId === selectedUser._id) ||
+        (newMessage.senderId === selectedUser._id &&
+          newMessage.receiverId === authUser._id)
       ) {
         // Check if message already exists to prevent duplicates
-        const messageExists = messagesRef.current.some(msg => msg._id === newMessage._id);
+        const messageExists = messagesRef.current.some(
+          (msg) => msg._id === newMessage._id
+        );
         if (!messageExists) {
           dispatch(setMessages([...messagesRef.current, newMessage]));
         }
@@ -52,7 +55,7 @@ const useGetRealTimeMessage = () => {
     return () => {
       socket.off("newMessage", handleNewMessage);
     };
-  }, [socket, selectedUser, dispatch]);
+  }, [socket, selectedUser, authUser, dispatch]);
 };
 
 export default useGetRealTimeMessage;
