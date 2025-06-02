@@ -39,15 +39,21 @@ io.on("connection", (socket) => {
     // Handle new messages
     socket.on("sendMessage", (message) => {
       const receiverSocketId = getReceiverSocketId(message.receiverId);
+      const senderSocketId = getReceiverSocketId(message.senderId);
       if (receiverSocketId) {
         io.to(receiverSocketId).emit("newMessage", message);
+      }
+      if (senderSocketId) {
+        io.to(senderSocketId).emit("newMessage", message);
       }
     });
 
   socket.on("disconnect", () => {
     console.log("User disconnected", socket.id);
-    delete userSocketMap[userID];
-    io.emit("getOnlineUsers", Object.keys(userSocketMap));
+    if(userID){
+      delete userSocketMap[userID];
+      io.emit("getOnlineUsers", Object.keys(userSocketMap));
+    }
   });
 });
 

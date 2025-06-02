@@ -35,7 +35,11 @@ const useGetRealTimeMessage = () => {
     if (!socket) return;
 
     const handleNewMessage = (newMessage) => {
-      if (selectedUser?._id === newMessage.senderId || selectedUser?._id === newMessage.receiverId) {
+      if (
+        (newMessage.senderId === authUser._id && newMessage.receiverId === selectedUser._id) ||
+        (newMessage.senderId === selectedUser._id && newMessage.receiverId === authUser._id)
+      ) {
+        // Check if message already exists to prevent duplicates
         const messageExists = messagesRef.current.some(msg => msg._id === newMessage._id);
         if (!messageExists) {
           dispatch(setMessages([...messagesRef.current, newMessage]));
