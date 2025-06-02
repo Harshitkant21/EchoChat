@@ -9,7 +9,7 @@ import { toast } from "react-hot-toast";
 const SendInput = () => {
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
-  const { selectedUser } = useSelector((store) => store.user);
+  const { selectedUser, authUser } = useSelector((store) => store.user);
   const { messages } = useSelector((store) => store.messages);
   const { socket } = useSelector((store) => store.socket);
   const onSubmitHandler = async (e) => {
